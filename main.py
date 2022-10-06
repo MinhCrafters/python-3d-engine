@@ -10,7 +10,6 @@ from scene import Scene
 
 class GraphicsEngine:
     def __init__(self, window_size=(1600, 900)):
-
         pygame.init()
 
         self.WINDOW_SIZE = window_size
@@ -50,7 +49,6 @@ class GraphicsEngine:
                 sys.exit()
 
     def render(self):
-
         self.ctx.clear(color=(0.08, 0.16, 0.18))
 
         self.scene.render()
