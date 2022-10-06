@@ -7,6 +7,8 @@ class Scene:
         self.objects = []
         self.load()
 
+        self.skybox = Skybox(app)
+
     def add_object(self, obj):
         self.objects.append(obj)
 
@@ -19,8 +21,10 @@ class Scene:
             for z in range(-n, n, s):
                 add(Cube(app, pos=(x, -s, z)))
 
-        add(Cat(app, pos=(0, -2, -10)))
+        # add(Cat(app, pos=(0, -2, -10)))
+        add(IronMan(app, pos=(0, -2, -10)))
 
     def render(self):
         for obj in self.objects:
             obj.render()
+        self.skybox.render()

@@ -15,8 +15,6 @@ class BaseModel:
         self.program = self.vao.program
         self.camera = self.app.camera
 
-    def update(self): ...
-
     def get_model_matrix(self):
         m_model = glm.mat4()
 
@@ -35,16 +33,23 @@ class BaseModel:
 
 
 class ExtendedBaseModel(BaseModel):
+    def __init__(self, app, vao_name, tex_id, pos, rot, scale):
+        super().__init__(app, vao_name, tex_id, pos, rot, scale)
+        self.on_init()
+
     def update(self):
-        self.texture.use()
+        if (self.tex_id != None):
+            self.texture.use()
+
         self.program['camPos'].write(self.camera.position)
         self.program['m_view'].write(self.camera.m_view)
         self.program['m_model'].write(self.m_model)
 
     def on_init(self):
-        self.texture = self.app.mesh.texture.textures[self.tex_id]
-        self.program['u_texture_0'] = 0
-        self.texture.use()
+        if (self.tex_id != None):
+            self.texture = self.app.mesh.texture.textures[self.tex_id]
+            self.program['u_texture_0'] = 0
+            self.texture.use()
 
         self.program['m_proj'].write(self.camera.m_proj)
         self.program['m_view'].write(self.camera.m_view)
@@ -59,11 +64,32 @@ class ExtendedBaseModel(BaseModel):
 class Cube(ExtendedBaseModel):
     def __init__(self, app, vao_name='cube', tex_id=0, pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 1, 1)):
         super().__init__(app, vao_name, tex_id, pos, rot, scale)
-        self.on_init()
 
 
 class Cat(ExtendedBaseModel):
     def __init__(self, app, vao_name='cat', tex_id='cat',
                  pos=(0, 0, 0), rot=(-90, 0, 0), scale=(1, 1, 1)):
         super().__init__(app, vao_name, tex_id, pos, rot, scale)
+
+
+class IronMan(ExtendedBaseModel):
+    def __init__(self, app, vao_name='iron_man', tex_id=None,
+                 pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 1, 1)):
+        super().__init__(app, vao_name, tex_id, pos, rot, scale)
+
+
+class Skybox(BaseModel):
+    def __init__(self, app, vao_name='skybox', tex_id='skybox',
+                 pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 1, 1)):
+        super().__init__(app, vao_name, tex_id, pos, rot, scale)
         self.on_init()
+
+    def update(self):
+        m_view = glm.mat4(glm.mat3(self.camera.m_view))
+        self.program['m_invProjView'].write(
+            glm.inverse(self.camera.m_proj * m_view))
+
+    def on_init(self):
+        self.texture = self.app.mesh.texture.textures[self.tex_id]
+        self.program['u_texture_skybox'] = 0
+        self.texture.use(location=0)

@@ -8,6 +8,8 @@ class VBO:
         self.vbos = {}
         self.vbos['cube'] = CubeVBO(ctx)
         self.vbos['cat'] = CatVBO(ctx)
+        self.vbos['iron_man'] = IronManVBO(ctx)
+        self.vbos['skybox'] = SkyboxVBO(ctx)
 
     def destroy(self):
         [vbo.destroy() for vbo in self.vbos.values()]
@@ -88,4 +90,33 @@ class CatVBO(BaseVBO):
         obj = objs.materials.popitem()[1]
         vertex_data = obj.vertices
         vertex_data = np.array(vertex_data, dtype='f4')
+        return vertex_data
+
+
+class IronManVBO(BaseVBO):
+    def __init__(self, app):
+        super().__init__(app)
+        self.format = '2f 3f 3f'
+        self.attribs = ['in_texcoord_0', 'in_normal', 'in_position']
+
+    def get_vertex_data(self):
+        objs = pywavefront.Wavefront(
+            'objects/ironman/benz.obj', cache=True, parse=True, create_materials=True)
+        obj = objs.materials.popitem()[1]
+        vertex_data = obj.vertices
+        vertex_data = np.array(vertex_data, dtype='f4')
+        return vertex_data
+
+
+class SkyboxVBO(BaseVBO):
+    def __init__(self, ctx):
+        super().__init__(ctx)
+        self.format = '3f'
+        self.attribs = ['in_position']
+
+    def get_vertex_data(self):
+        z = 0.9999
+        vertices = [(-1, -1, z), (3, -1, z), (-1, 3, z)]
+
+        vertex_data = np.array(vertices, dtype='f4')
         return vertex_data

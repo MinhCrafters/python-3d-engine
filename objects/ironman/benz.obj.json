@@ -1,0 +1,31 @@
+{
+  "created_at": "2022-10-06T21:27:05.624808",
+  "version": "0.1",
+  "mtllibs": [],
+  "vertex_buffers": [
+    {
+      "material": "Polar_White",
+      "vertex_format": "T2F_N3F_V3F",
+      "byte_offset": 0,
+      "byte_length": 10229568
+    },
+    {
+      "material": "Interior",
+      "vertex_format": "T2F_N3F_V3F",
+      "byte_offset": 10229568,
+      "byte_length": 4682880
+    },
+    {
+      "material": "Color_M02",
+      "vertex_format": "T2F_N3F_V3F",
+      "byte_offset": 14912448,
+      "byte_length": 2872512
+    },
+    {
+      "material": "UnderCarriage",
+      "vertex_format": "T2F_N3F_V3F",
+      "byte_offset": 17784960,
+      "byte_length": 741632
+    }
+  ]
+}

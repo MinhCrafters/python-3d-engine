@@ -30,6 +30,9 @@ class GraphicsEngine:
         self.ctx.enable(flags=moderngl.DEPTH_TEST | moderngl.CULL_FACE)
 
         self.clock = pygame.time.Clock()
+
+        self.FPS = 120
+
         self.time = 0
         self.delta_time = 0
 
@@ -53,6 +56,8 @@ class GraphicsEngine:
 
         self.scene.render()
 
+        pygame.display.set_caption(str(round(self.clock.get_fps())) + ' FPS')
+
         pygame.display.flip()
 
     def get_time(self):
@@ -64,7 +69,7 @@ class GraphicsEngine:
             self.check_events()
             self.camera.update()
             self.render()
-            self.delta_time = self.clock.tick(60)
+            self.delta_time = self.clock.tick(self.FPS)
 
 
 if __name__ == '__main__':
