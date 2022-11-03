@@ -9,7 +9,7 @@ from scene import Scene
 
 
 class GraphicsEngine:
-    def __init__(self, window_size=(1600, 900)):
+    def __init__(self, window_size=(800, 600)):
         pygame.init()
 
         self.WINDOW_SIZE = window_size
